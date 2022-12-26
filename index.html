@@ -1,24 +1,15 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <!-- Nubik Adventure-->
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | NubikAdventure</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
-
-    <!-- Yandex Games SDK -->
-<script src="https://yandex.ru/games/sdk/v2"></script>
-    <!-- Yandex Games SDK -->
   </head>
   <body>
-
-      <!-- New canvas sizes -->
-   <div id="unity-container" style ="position: absolute; width: 100%; height: 100%; left: 0%; top: 0%;">
-      <canvas id="unity-canvas" style ="position: absolute; width: 100%; height: 100%"></canvas>
-      <!-- New canvas sizes -->
-
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas" width=960 height=600></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
@@ -26,38 +17,18 @@
         </div>
       </div>
       <div id="unity-warning"> </div>
-
-      <!-- Delete Footer -->
-      <!-- Delete Footer -->
-      <!-- Delete Footer -->
-      <!-- Delete Footer -->
-      <!-- Delete Footer -->
-
+      <div id="unity-footer">
+        <div id="unity-webgl-logo"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">NubikAdventure</div>
+      </div>
     </div>
-
-    <!-- Yandex init -->
-     <script>
-        YaGames
-    .init()
-    .then(ysdk => {
-        console.log('Yandex SDK initialized');
-        window.ysdk = ysdk;
-
-    });
-            </script>
-    <!-- Yandex init -->
-
-  
-
     <script>
-
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
       var loadingBar = document.querySelector("#unity-loading-bar");
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
-
-      // <!--Comment fullscreenButton-->
-      //var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
       var warningBanner = document.querySelector("#unity-warning");
 
       // Shows a temporary message banner/ribbon for a few seconds, or
@@ -84,17 +55,17 @@
         updateBannerVisibility();
       }
 
-        var buildUrl = "Build";
-        var loaderUrl = buildUrl + "/NubikAdv.loader.js";
-        var config = {
-            dataUrl: buildUrl + "/NubikAdv.data.unityweb",
-            frameworkUrl: buildUrl + "/NubikAdv.framework.js.unityweb",
-            codeUrl: buildUrl + "/NubikAdv.wasm.unityweb",
-            streamingAssetsUrl: "StreamingAssets",
-            companyName: "CyberCats",
-            productName: "NubikAdventure",
-            productVersion: "1",
-            //showBanner: unityShowBanner,
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/VKGames.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/VKGames.data.unityweb",
+        frameworkUrl: buildUrl + "/VKGames.framework.js.unityweb",
+        codeUrl: buildUrl + "/VKGames.wasm.unityweb",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "CyberCats",
+        productName: "NubikAdventure",
+        productVersion: "1",
+        showBanner: unityShowBanner,
       };
 
       // By default Unity keeps WebGL canvas render target size matched with
@@ -118,21 +89,15 @@
         // performance, uncomment the following line:
         // config.devicePixelRatio = 1;
 
-        //------------- <!--Comment unity warning banner-->
-        //unityShowBanner('WebGL builds are not supported on mobile devices.');
+        unityShowBanner('WebGL builds are not supported on mobile devices.');
       } else {
         // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
 
-        //------------ Change can style 100%
-        canvas.style.width = "100%";
-        canvas.style.height = "100%";
+        canvas.style.width = "960px";
+        canvas.style.height = "600px";
       }
 
       loadingBar.style.display = "block";
-
-      //---------------init gameInstance
-      var myGameInstance = null;
-     
 
       var script = document.createElement("script");
       script.src = loaderUrl;
@@ -140,13 +105,10 @@
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
         }).then((unityInstance) => {
-
-          myGameInstance = unityInstance;
           loadingBar.style.display = "none";
-          //---------------Comment onclick
-          //fullscreenButton.onclick = () => {
-            //unityInstance.SetFullscreen(1);
-          //};
+          fullscreenButton.onclick = () => {
+            unityInstance.SetFullscreen(1);
+          };
         }).catch((message) => {
           alert(message);
         });
